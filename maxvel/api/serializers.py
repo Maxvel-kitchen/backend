@@ -46,7 +46,7 @@ class CategorySerializer(ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'order', 'categories', 'sub_categories')
+        fields = ('id', 'name', 'order', 'sub_categories')
 
 
 # class IngredientSerializer(ModelSerializer):
