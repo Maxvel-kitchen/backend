@@ -171,5 +171,3 @@ class ShoppingCart(Model):
         new_number = phonenumbers.parse(self.phone, "RU")
         if phonenumbers.is_valid_number(new_number) is False:
             raise ValidationError(_('Поле телефона не корректное'))
-        # if len(self.phone) != 11:
-        #     raise ValidationError(_('Поле телефона должно состоять из 11 цифр'))

@@ -53,8 +53,8 @@ class Contact(models.Model):
 
     def validate_only_one_instance(self, obj):
         model = obj.__class__
-        if (model.objects.count() > 0 and
-                obj.id != model.objects.get().id):
+        if (model.objects.count() > 0
+                and obj.id != model.objects.get().id):
             raise ValidationError("Можно создать только 1 контакт ")
 
     def clean(self):
@@ -63,8 +63,6 @@ class Contact(models.Model):
         print(new_number)
         if phonenumbers.is_valid_number(new_number) is False:
             raise ValidationError(_('Поле телефона не корректное'))
-        # if len(self.phone) != 11:
-        #     raise ValidationError(_('Поле телефона должно состоять из 11 цифр'))
 
     def __str__(self):
         return self.phone
@@ -83,8 +81,6 @@ class CallMe(models.Model):
         print(new_number)
         if phonenumbers.is_valid_number(new_number) is False:
             raise ValidationError(_('Поле телефона не корректное'))
-        # if len(self.phone) != 11:
-        #     raise ValidationError(_('Поле телефона должно состоять из 11 цифр'))
 
     def __str__(self):
         return self.comment

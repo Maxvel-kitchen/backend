@@ -1,11 +1,11 @@
 import phonenumbers
 from django.contrib.auth import get_user_model
-from djoser.serializers import UserCreateSerializer, UserSerializer
-from drf_extra_fields.fields import Base64ImageField
-from rest_framework.serializers import (CharField, IntegerField,
-                                        ModelSerializer, SerializerMethodField,
+# from djoser.serializers import UserCreateSerializer, UserSerializer
+# from drf_extra_fields.fields import Base64ImageField
+from rest_framework.serializers import (CharField,
+                                        ModelSerializer,
                                         ValidationError)
-from rest_framework.validators import UniqueValidator
+# from rest_framework.validators import UniqueValidator
 
 from users.models import CallMe, Contact, Link
 
@@ -175,8 +175,6 @@ class ContactSerializer(ModelSerializer):
     #     new_number = phonenumbers.parse(value, "RU")
     #     if phonenumbers.is_valid_number(new_number) is False:
     #         raise ValidationError('Поле телефона не корректное')
-    #     # if len(value) != 11:
-    #     #     raise ValidationError('Поле телефона должно состоять из 11 цифр')
     #     return value
 
     # @staticmethod

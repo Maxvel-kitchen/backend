@@ -1,12 +1,11 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.viewsets import (GenericViewSet, ModelViewSet,
-                                     ReadOnlyModelViewSet)
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from celery_task.task import (send_email_with_call_me,
                               send_email_with_shopping_card)
-from users.models import CallMe, Contact, Link
+from users.models import CallMe, Contact
 
 # from .models import Category, Ingredient, Position, ShoppingCart
 from .models import Category, Position, ShoppingCart
@@ -75,11 +74,10 @@ class PositionViewSet(ReadOnlyModelViewSet):
 
 
 class ShoppingCartViewSet(
-            # generics.ListAPIView,
-            generics.CreateAPIView,
-            generics.RetrieveAPIView,
-            GenericViewSet
-        ):
+    generics.CreateAPIView,
+    generics.RetrieveAPIView,
+    GenericViewSet,
+):
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
 
@@ -88,10 +86,7 @@ class ShoppingCartViewSet(
         send_email_with_shopping_card.delay(shopping_card.pk,)
 
 
-class ContactViewSet(
-            generics.ListAPIView,
-            GenericViewSet
-            ):
+class ContactViewSet(generics.ListAPIView, GenericViewSet):
     serializer_class = ContactSerializer
 
     def list(self, request, *args, **kwargs):
@@ -104,10 +99,7 @@ class ContactViewSet(
     #     instance.delete()
 
 
-class CallMeViewSet(
-            generics.CreateAPIView,
-            GenericViewSet
-        ):
+class CallMeViewSet(generics.CreateAPIView, GenericViewSet):
     queryset = CallMe.objects.all()
     serializer_class = CallMeSerializer
 
