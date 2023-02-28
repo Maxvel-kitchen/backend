@@ -16,7 +16,7 @@ class Category(Model):
     )
     order = IntegerField(
         verbose_name='Очередность отображения',
-        help_text='По возвростанию',
+        help_text='По возрастанию',
         default=0
     )
 
@@ -24,6 +24,33 @@ class Category(Model):
         ordering = ('-order',)
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.name
+
+
+class SubCategory(Model):
+    name = CharField(
+        verbose_name='Наименование',
+        max_length=50,
+        unique=True,
+    )
+    order = IntegerField(
+        verbose_name='Очередность отображения',
+        help_text='По возрастанию',
+        default=0
+    )
+    category = ForeignKey(
+        Category,
+        verbose_name='Категория',
+        on_delete=CASCADE,
+        related_name='sub_categories',
+    )
+
+    class Meta:
+        ordering = ('-order',)
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
 
     def __str__(self):
         return self.name
@@ -66,6 +93,11 @@ class Position(Model):
         verbose_name='Категория',
         related_name='positions',
     )
+    sub_category = ManyToManyField(
+        SubCategory,
+        verbose_name='Подкатегория',
+        related_name='positions',
+    )
     image = ImageField(
         verbose_name='Фото',
         upload_to='position',
@@ -99,7 +131,7 @@ class Position(Model):
         return super(Position, self).save(*args, **kwargs)
 
 
-class PositionForShopingCart(Model):
+class PositionForShoppingCart(Model):
     position = ForeignKey(
         Position,
         verbose_name='Позиция',
@@ -115,7 +147,7 @@ class PositionForShopingCart(Model):
 
 class ShoppingCart(Model):
     positions_in_cart = ManyToManyField(
-        PositionForShopingCart,
+        PositionForShoppingCart,
         verbose_name='Позиция',
     )
     all_amount = IntegerField(verbose_name='Цена в итоге')

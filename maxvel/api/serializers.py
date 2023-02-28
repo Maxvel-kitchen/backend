@@ -6,11 +6,13 @@ from rest_framework.serializers import (CharField, IntegerField,
                                         ModelSerializer, SerializerMethodField,
                                         ValidationError)
 from rest_framework.validators import UniqueValidator
+
 from users.models import CallMe, Contact, Link
 
-# from .models import (Category, Ingredient, Position, PositionForShopingCart,
+# from .models import (Category, Ingredient, Position, PositionForShoppingCart,
 #                      ShoppingCart)
-from .models import Category, Position, PositionForShopingCart, ShoppingCart
+from .models import (Category, Position, PositionForShoppingCart, ShoppingCart,
+                     SubCategory)
 
 User = get_user_model()
 
@@ -33,10 +35,18 @@ User = get_user_model()
 #         model = User
 
 
+class SubCategorySerializer(ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = ('id', 'name', 'order')
+
+
 class CategorySerializer(ModelSerializer):
+    sub_categories = SubCategorySerializer(many=True, read_only=True)
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'name', 'order', 'categories', 'sub_categories')
 
 
 # class IngredientSerializer(ModelSerializer):
@@ -101,15 +111,15 @@ class PositionViewSerializer(ModelSerializer):
 #         return super().update(instance, validated_data)
 
 
-class PositionForShopingCartSerializer(ModelSerializer):
+class PositionForShoppingCartSerializer(ModelSerializer):
 
     class Meta:
         fields = '__all__'
-        model = PositionForShopingCart
+        model = PositionForShoppingCart
 
 
 class ShoppingCartSerializer(ModelSerializer):
-    positions_in_cart = PositionForShopingCartSerializer(many=True)
+    positions_in_cart = PositionForShoppingCartSerializer(many=True)
 
     class Meta:
         fields = '__all__'
@@ -126,7 +136,7 @@ class ShoppingCartSerializer(ModelSerializer):
     @staticmethod
     def create_positions_for_card(shopping_cart, positions):
         for position in positions:
-            position_with_amount = PositionForShopingCart.objects.create(
+            position_with_amount = PositionForShoppingCart.objects.create(
                 position=position['position'],
                 amount=position['amount']
             )

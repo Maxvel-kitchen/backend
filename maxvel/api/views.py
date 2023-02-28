@@ -1,10 +1,11 @@
-from celery_task.task import (send_email_with_call_me,
-                              send_email_with_shopping_card)
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import (GenericViewSet, ModelViewSet,
                                      ReadOnlyModelViewSet)
+
+from celery_task.task import (send_email_with_call_me,
+                              send_email_with_shopping_card)
 from users.models import CallMe, Contact, Link
 
 # from .models import Category, Ingredient, Position, ShoppingCart
@@ -67,7 +68,9 @@ class PositionViewSet(ReadOnlyModelViewSet):
         if category is None:
             self.queryset = self.queryset.filter(new=True)
         else:
-            self.queryset = self.queryset.filter(category=category)
+            self.queryset = self.queryset.filter(
+                sub_category__category=category,
+            )
         return super().list(self, request, *args, **kwargs)
 
 

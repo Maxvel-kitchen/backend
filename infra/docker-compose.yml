@@ -4,12 +4,12 @@ services:
   db:
     image: postgres:13.0-alpine
     volumes:
-      - /var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
 
   backend:
-    image: ssd256/maxvel_back:latest
+    image: rbdn/maxvel_back:latest
     restart: always
     volumes:
       - static_value:/app/static/

@@ -1,11 +1,21 @@
 from django.contrib import admin
 
-# from .models import (Category, Ingredient, PositionForShopingCart, Position,
+# from .models import (Category, Ingredient, PositionForShoppingCart, Position,
 #                      ShoppingCart)
-from .models import Category, Position, PositionForShopingCart, ShoppingCart
+from .models import (Category, Position, PositionForShoppingCart, ShoppingCart,
+                     SubCategory)
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'name',
+    )
+
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
@@ -21,18 +31,17 @@ class CategoryAdmin(admin.ModelAdmin):
 #     )
 
 
+@admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
         'price',
-        # 'category',
-        # 'amount',
-        # 'image',
         'text',
     )
 
 
+@admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
@@ -48,7 +57,8 @@ class ShoppingCartAdmin(admin.ModelAdmin):
     )
 
 
-class PosithionForShopingCartAdmin(admin.ModelAdmin):
+@admin.register(PositionForShoppingCart)
+class PositionForShoppingCartAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'position',
@@ -56,8 +66,4 @@ class PosithionForShopingCartAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Category, CategoryAdmin)
 # admin.site.register(Ingredient, IngredientAdmin)
-admin.site.register(Position, PositionAdmin)
-admin.site.register(ShoppingCart, ShoppingCartAdmin)
-admin.site.register(PositionForShopingCart, PosithionForShopingCartAdmin)
