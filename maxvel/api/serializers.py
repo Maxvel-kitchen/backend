@@ -2,17 +2,17 @@ import phonenumbers
 from django.contrib.auth import get_user_model
 # from djoser.serializers import UserCreateSerializer, UserSerializer
 # from drf_extra_fields.fields import Base64ImageField
-from rest_framework.serializers import (CharField,
-                                        ModelSerializer,
+from rest_framework.serializers import (CharField, ModelSerializer,
                                         ValidationError)
-# from rest_framework.validators import UniqueValidator
-
 from users.models import CallMe, Contact, Link
 
 # from .models import (Category, Ingredient, Position, PositionForShoppingCart,
 #                      ShoppingCart)
 from .models import (Category, Position, PositionForShoppingCart, ShoppingCart,
                      SubCategory)
+
+# from rest_framework.validators import UniqueValidator
+
 
 User = get_user_model()
 
