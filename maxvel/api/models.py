@@ -2,10 +2,9 @@ import phonenumbers
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
-                              EmailField, ForeignKey, ImageField, IntegerField,
-                              ManyToManyField, Model,
-                              PositiveSmallIntegerField, TextField,
-                              DecimalField)
+                              DecimalField, EmailField, ForeignKey, ImageField,
+                              IntegerField, ManyToManyField, Model,
+                              PositiveSmallIntegerField, TextField)
 from django.utils.translation import gettext_lazy as _
 
 

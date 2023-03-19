@@ -1,9 +1,10 @@
-from celery_task.task import (send_email_with_call_me,
-                              send_email_with_shopping_card)
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
+
+from celery_task.task import (send_email_with_call_me,
+                              send_email_with_shopping_card)
 from users.models import CallMe, Contact
 
 # from .models import Category, Ingredient, Position, ShoppingCart
