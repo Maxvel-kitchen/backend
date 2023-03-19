@@ -97,6 +97,7 @@ class Position(Model):
         SubCategory,
         verbose_name='Подкатегория',
         related_name='positions',
+        blank=True,
     )
     image = ImageField(
         verbose_name='Фото',
