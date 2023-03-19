@@ -4,7 +4,8 @@ from django.core.validators import MinValueValidator
 from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
                               EmailField, ForeignKey, ImageField, IntegerField,
                               ManyToManyField, Model,
-                              PositiveSmallIntegerField, TextField)
+                              PositiveSmallIntegerField, TextField,
+                              DecimalField)
 from django.utils.translation import gettext_lazy as _
 
 
@@ -17,7 +18,7 @@ class Category(Model):
     order = IntegerField(
         verbose_name='Очередность отображения',
         help_text='По возрастанию',
-        default=0
+        default=0,
     )
 
     class Meta:
@@ -38,7 +39,7 @@ class SubCategory(Model):
     order = IntegerField(
         verbose_name='Очередность отображения',
         help_text='По возрастанию',
-        default=0
+        default=0,
     )
     category = ForeignKey(
         Category,
@@ -79,10 +80,14 @@ class SubCategory(Model):
 
 class Position(Model):
     name = CharField(verbose_name='Наименование', max_length=50)
-    price = PositiveSmallIntegerField(verbose_name='Цена')
+    price = DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2)
     new = BooleanField(verbose_name='Новинка!', default=False)
-    text = TextField(verbose_name='Описание')
-    ingredients = CharField(verbose_name='Ингредиенты', max_length=1024)
+    text = TextField(verbose_name='Описание', blank=True)
+    ingredients = CharField(
+        verbose_name='Ингредиенты',
+        max_length=1024,
+        blank=True,
+    )
     # ingredients = ManyToManyField(
     #     Ingredient,
     #     verbose_name='Ингредиенты',

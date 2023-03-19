@@ -39,6 +39,7 @@ class PositionAdmin(admin.ModelAdmin):
         'price',
         'text',
     )
+    ordering = 'pk',
 
 
 @admin.register(ShoppingCart)
