@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
                               DecimalField, EmailField, ForeignKey, ImageField,
                               IntegerField, ManyToManyField, Model,
-                              PositiveSmallIntegerField, TextField)
+                              PositiveSmallIntegerField, SlugField, TextField)
 from django.utils.translation import gettext_lazy as _
 
 
@@ -18,6 +18,11 @@ class Category(Model):
         verbose_name='Очередность отображения',
         help_text='По возрастанию',
         default=0,
+    )
+    slug = SlugField(
+        verbose_name='Slug',
+        max_length=50,
+        unique=True,
     )
 
     class Meta:

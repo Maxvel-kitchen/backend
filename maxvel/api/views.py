@@ -66,7 +66,7 @@ class PositionViewSet(ReadOnlyModelViewSet):
         if category is None:
             self.queryset = self.queryset.filter(new=True)
         else:
-            self.queryset = self.queryset.filter(category=category)
+            self.queryset = self.queryset.filter(category__slug=category)
         return super().list(self, request, *args, **kwargs)
 
 
@@ -102,4 +102,4 @@ class CallMeViewSet(generics.CreateAPIView, GenericViewSet):
 
     def perform_create(self, serializer):
         call_me = serializer.save()
-        send_email_with_call_me.delay(call_me.pk,)
+        send_email_with_call_me.delay(call_me.pk)
