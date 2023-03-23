@@ -66,9 +66,7 @@ class PositionViewSet(ReadOnlyModelViewSet):
         if category is None:
             self.queryset = self.queryset.filter(new=True)
         else:
-            self.queryset = self.queryset.filter(
-                sub_category__category=category,
-            )
+            self.queryset = self.queryset.filter(category=category)
         return super().list(self, request, *args, **kwargs)
 
 
