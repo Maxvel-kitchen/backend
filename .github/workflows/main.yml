@@ -57,6 +57,7 @@ jobs:
           cd maxvel/infra/
           sudo docker compose stop
           sudo docker compose rm -f backend
+          sudo docker compose image rm backend
           sudo docker compose image pull backend
           touch .env
           echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
