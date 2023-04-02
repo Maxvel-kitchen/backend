@@ -8,8 +8,8 @@ from users.models import CallMe, Contact, Link
 
 # from .models import (Category, Ingredient, Position, PositionForShoppingCart,
 #                      ShoppingCart)
-from .models import (Category, Position, PositionForShoppingCart, ShoppingCart,
-                     SubCategory)
+from .models import (Category, HeadImage, Position, PositionForShoppingCart,
+                     ShoppingCart, SubCategory)
 
 # from rest_framework.validators import UniqueValidator
 
@@ -252,3 +252,9 @@ class CallMeSerializer(ModelSerializer):
         # if len(value) != 11:
         #     raise ValidationError('Поле телефона должно состоять из 11 цифр')
         return value
+
+
+class HeadImageSerializer(ModelSerializer):
+    class Meta:
+        model = HeadImage
+        fields = 'id', 'image'

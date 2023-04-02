@@ -2,8 +2,13 @@ from django.contrib import admin
 
 # from .models import (Category, Ingredient, PositionForShoppingCart, Position,
 #                      ShoppingCart)
-from .models import (Category, Position, PositionForShoppingCart, ShoppingCart,
-                     SubCategory)
+from .models import (Category, HeadImage, Position, PositionForShoppingCart,
+                     ShoppingCart, SubCategory)
+
+
+@admin.register(HeadImage)
+class HeadImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'image')
 
 
 @admin.register(Category)

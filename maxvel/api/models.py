@@ -8,6 +8,20 @@ from django.db.models import (CASCADE, BooleanField, CharField, DateTimeField,
 from django.utils.translation import gettext_lazy as _
 
 
+class ImageDeleteMixin:
+    image_field = 'image'
+
+    def remove_on_image_update(self):
+        try:
+            obj = self.__class__.objects.get(id=self.id)
+        except self.__class__.DoesNotExist:
+            return
+        cur_im = getattr(obj, self.image_field)
+        new_im = getattr(self, self.image_field)
+        if cur_im and new_im and cur_im != new_im:
+            cur_im.delete()
+
+
 class Category(Model):
     name = CharField(
         verbose_name='Наименование',
@@ -82,7 +96,7 @@ class SubCategory(Model):
 #         return self.name
 
 
-class Position(Model):
+class Position(Model, ImageDeleteMixin):
     name = CharField(verbose_name='Наименование', max_length=50)
     price = DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2)
     new = BooleanField(verbose_name='Новинка!', default=False)
@@ -122,23 +136,15 @@ class Position(Model):
     def __str__(self):
         return self.name
 
-    def remove_on_image_update(self):
-        try:
-            obj = Position.objects.get(id=self.id)
-        except Position.DoesNotExist:
-            return
-        if obj.image and self.image and obj.image != self.image:
-            obj.image.delete()
-
     def delete(self, *args, **kwargs):
         # for ingredient in self.ingredients.all():
         #     ingredient.delete()
         self.image.delete()
-        return super(Position, self).delete(*args, **kwargs)
+        return super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         self.remove_on_image_update()
-        return super(Position, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class PositionForShoppingCart(Model):
@@ -181,3 +187,19 @@ class ShoppingCart(Model):
         new_number = phonenumbers.parse(self.phone, "RU")
         if phonenumbers.is_valid_number(new_number) is False:
             raise ValidationError(_('Поле телефона не корректное'))
+
+
+class HeadImage(Model, ImageDeleteMixin):
+    image = ImageField(verbose_name='Фото', upload_to='head_images')
+
+    class Meta:
+        verbose_name = 'Изображение для карусели'
+        verbose_name_plural = 'Изображения для карусели'
+
+    def delete(self, *args, **kwargs):
+        self.image.delete()
+        return super().delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.remove_on_image_update()
+        return super().save(*args, **kwargs)

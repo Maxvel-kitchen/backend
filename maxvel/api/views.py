@@ -1,19 +1,19 @@
 from celery_task.task import (send_email_with_call_me,
                               send_email_with_shopping_card)
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from users.models import CallMe, Contact
 
 # from .models import Category, Ingredient, Position, ShoppingCart
-from .models import Category, Position, ShoppingCart
+from .models import Category, HeadImage, Position, ShoppingCart
 # from .serializers import (CategorySerializer, ContactSerializer,
 #                           PositionCreateSerializer, PositionViewSerializer,
 #                           ShoppingCartSerializer)
 from .serializers import (CallMeSerializer, CategorySerializer,
-                          ContactSerializer, PositionViewSerializer,
-                          ShoppingCartSerializer)
+                          ContactSerializer, HeadImageSerializer,
+                          PositionViewSerializer, ShoppingCartSerializer)
 
 # class CategoriesViewSet(ModelViewSet):
 #     queryset = Category.objects.all()
@@ -103,3 +103,8 @@ class CallMeViewSet(generics.CreateAPIView, GenericViewSet):
     def perform_create(self, serializer):
         call_me = serializer.save()
         send_email_with_call_me.delay(call_me.pk)
+
+
+class HeadImageViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = HeadImage.objects.all()
+    serializer_class = HeadImageSerializer
